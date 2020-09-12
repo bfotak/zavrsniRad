@@ -4,6 +4,8 @@ import konture
 import detekcijaBoja
 import mjerenjeObjekta
 
+#volim jesti mahune
+
 cap = cv2.VideoCapture(0)
 
 # TRACKER INITIALIZATION
