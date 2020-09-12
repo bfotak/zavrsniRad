@@ -6,7 +6,7 @@ import mjerenjeObjekta
 
 #volim jesti mahune
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # TRACKER INITIALIZATION
 tracker = cv2.TrackerCSRT_create()
@@ -42,8 +42,8 @@ def ispisFpsa(img, Pokreni): #ispis fpsa u cosku malo over kill //BITNO! proslje
 def privremenaFunkcija(): #mumbo jumbo za ispis mjerenja tu je negdje bug vjv
     cv2.polylines(imgContours2, [obj[2]], True, (0, 255, 0), 2)
     nPoints = mjerenjeObjekta.reorder(obj[2])
-    nH = round((mjerenjeObjekta.findDis(nPoints[0][0] // scale, nPoints[1][0] // scale) / 10), 1)
-    nW = round((mjerenjeObjekta.findDis(nPoints[0][0] // scale, nPoints[2][0] // scale) / 10), 1)
+    nW = round((mjerenjeObjekta.findDis(nPoints[0][0] // scale, nPoints[1][0] // scale) / 10), 1)
+    nH = round((mjerenjeObjekta.findDis(nPoints[0][0] // scale, nPoints[2][0] // scale) / 10), 1)
     cv2.arrowedLine(imgContours2, (nPoints[0][0][0], nPoints[0][0][1]),
                     (nPoints[1][0][0], nPoints[1][0][1]),
                     (255, 0, 255), 3, 8, 0, 0.05)
@@ -84,7 +84,7 @@ while True:#glavni kod koji je za sad smece
         # print(biggest)
         imgWarp = mjerenjeObjekta.warpImg(img, biggest, hP, wP)
         imgContours2, conts2 = mjerenjeObjekta.getContoursMeasurements(imgWarp,#tu se isto par stvari tereba maknut npr ovaj draw i filter
-                                                 minArea=2000, filter=15,
+                                                 minArea=2000, filter=4,
                                                  cThr=[50, 50], draw=False)
         if len(conts) != 0:#kad skuzi da je nesto na papiru napravi mjere
             for obj in conts2:
