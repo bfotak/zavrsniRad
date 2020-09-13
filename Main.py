@@ -50,8 +50,8 @@ def privremenaFunkcija(): #mumbo jumbo za ispis mjerenja tu je negdje bug vjv
 # TRACKER INITIALIZATION
 tracker = cv2.TrackerCSRT_create()
 success, frame = cap.read()
-bbox = cv2.selectROI("Tracking",frame, False) #bbox ce biti odreden konturama
-tracker.init(frame, bbox)
+#bbox = cv2.selectROI("Tracking",frame, False) #bbox ce biti odreden konturama
+#tracker.init(frame, bbox)
 
 #Sliders
 konture.sliderKonture() #dosta slicni kao za slidere za boje

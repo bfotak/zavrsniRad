@@ -30,6 +30,14 @@ def warpImg(img, points, h, w):  # prvipodstep
 def findDis(pts1, pts2):  # izracun
     return ((pts2[0] - pts1[0]) ** 2 + (pts2[1] - pts1[1]) ** 2) ** 0.5
 
+def površina(numberOfPixels):
+    KOEFICIJENT_POVRŠINE = 959.6
+    area = (numberOfPixels /  KOEFICIJENT_POVRŠINE)
+    return area
+
+def promjerKružnice(area):
+    diametar = (4*area/3.14)**0.5
+    return diametar
 
 def getContoursMeasurements(img, cThr=[100, 100], showCanny=False, minArea=2, filter=0,
                             draw=False):  # treba modificirat
