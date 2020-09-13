@@ -4,15 +4,7 @@ import konture
 import detekcijaBoja
 import mjerenjeObjekta
 
-#volim jesti mahune
-
 cap = cv2.VideoCapture(1)
-
-# TRACKER INITIALIZATION
-tracker = cv2.TrackerCSRT_create()
-success, frame = cap.read()
-bbox = cv2.selectROI("Tracking",frame, False) #bbox ce biti odreden konturama
-tracker.init(frame, bbox)
 
 # određivanje slike
 frameWidth = 720
@@ -21,11 +13,10 @@ cap.set(10,160)
 cap.set(3, frameHeight)
 cap.set(4, frameWidth)
 
+#skalirenje za papir
 scale = 3 #sluzi za povecanje slika i da podaci budu tocniji ugl sve kasnije treba dijelit sa scaleom
 wP = 210 * scale #širina papira A4
 hP= 297 * scale  #visina papira A4
-
-
 
 def ispisFpsa(img, Pokreni): #ispis fpsa u cosku malo over kill //BITNO! prosljedit iz maina fpse i ovo maknit van u neki utils
     if Pokreni:
@@ -56,17 +47,20 @@ def privremenaFunkcija(): #mumbo jumbo za ispis mjerenja tu je negdje bug vjv
     cv2.putText(imgContours2, '{}cm'.format(nH), (x - 70, y + h // 2), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
                 (255, 0, 255), 2)
 
+# TRACKER INITIALIZATION
+tracker = cv2.TrackerCSRT_create()
+success, frame = cap.read()
+bbox = cv2.selectROI("Tracking",frame, False) #bbox ce biti odreden konturama
+tracker.init(frame, bbox)
+
+#Sliders
 konture.sliderKonture() #dosta slicni kao za slidere za boje
 detekcijaBoja.slideriBoje() #vjv bitniji od dva slidera treba ih usporediti
 
 
-#u glavnom kodu se moraju pozivat funkcije redosljedom Original, pračenje, boja, konture, mjerenja
+
 #//ako bude vremena dodati izravno prepoznavanje predmeta i detaljna analiza #bitćevremenamorabit
-#ostalo smece koje ide tu je timer bez kojeg se nemreju tickat frameovi
-#
-#
-#
-while True:#glavni kod koji je za sad smece
+while True:#glavni kod koji vise nije tak smece
     timer = cv2.getTickCount()
     success, img = cap.read()
     imgPapir, conts = mjerenjeObjekta.getContoursMeasurements(img, minArea=50000, filter=4)
@@ -76,13 +70,14 @@ while True:#glavni kod koji je za sad smece
     cv2.imshow("Tracking", img)
 
     imgContours, conts = mjerenjeObjekta.getContoursMeasurements(img, minArea=50000, filter=4)
-    if len(conts) != 0: #prisjeti se cemu len sluzi
+    if len(conts) != 0:
         biggest = conts[0][2]#ovo je za uzimanje papira to je oke
         # print(biggest)
         imgWarp = mjerenjeObjekta.warpImg(img, biggest, hP, wP)
         imgContours2, conts2 = mjerenjeObjekta.getContoursMeasurements(imgWarp,#tu se isto par stvari tereba maknut npr ovaj draw i filter
                                                  minArea=2000, filter=4,
                                                  cThr=[50, 50], draw=False)
+
         if len(conts) != 0:#kad skuzi da je nesto na papiru napravi mjere
             #cv2.imshow('A4', imgContours2)
             imgContours2 = detekcijaBoja.detekcijaBojaMain(imgContours2)
@@ -97,3 +92,4 @@ while True:#glavni kod koji je za sad smece
     cv2.imshow('Original', img)
     if cv2.waitKey(1) & 0xff == ord('q'):
        break
+
