@@ -9,7 +9,7 @@ def sliderKonture():
     cv2.resizeWindow("Parameters", 640, 240)#problematicno(nezz jel samo prikaz)
     cv2.createTrackbar("Threshold1", "Parameters", 23, 255, empty)
     cv2.createTrackbar("Threshold2", "Parameters", 20, 255, empty)
-    cv2.createTrackbar("Area", "Parameters", 5000, 30000, empty)
+    cv2.createTrackbar("Area", "Parameters", 1000, 30000, empty)
 
 def getContours(img,imgContour):
     contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -17,12 +17,12 @@ def getContours(img,imgContour):
         area = cv2.contourArea(cnt)
         areaMin = cv2.getTrackbarPos("Area", "Parameters")
         if area > areaMin:
-            cv2.drawContours(imgContour, cnt, -1, (255, 0, 255), 7)
+            #cv2.drawContours(imgContour, cnt, -1, (255, 0, 255), 7)
             peri = cv2.arcLength(cnt, True)
             approx = cv2.approxPolyDP(cnt, 0.02 * peri, True)
             print(len(approx))
             x , y , w, h = cv2.boundingRect(approx)
-            cv2.rectangle(imgContour, (x , y ), (x + w , y + h ), (0, 255, 0), 5)
+            #cv2.rectangle(imgContour, (x , y ), (x + w , y + h ), (0, 255, 0), 5)
 
             cv2.putText(imgContour, "Points: " + str(len(approx)), (x + w + 20, y + 20), cv2.FONT_HERSHEY_COMPLEX, .7,
                         (0, 255, 0), 2)
@@ -74,5 +74,5 @@ def mainContours(img):
 
     #cv2.imshow("Canny", imgCanny)
     #cv2.imshow("Dil", imgDil)
-    cv2.imshow("Contour", imgContour)
+    #cv2.imshow("Contour", imgContour)
     return imgContour

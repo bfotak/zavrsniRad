@@ -69,16 +69,13 @@ detekcijaBoja.slideriBoje() #vjv bitniji od dva slidera treba ih usporediti
 while True:#glavni kod koji je za sad smece
     timer = cv2.getTickCount()
     success, img = cap.read()
+    imgPapir, conts = mjerenjeObjekta.getContoursMeasurements(img, minArea=50000, filter=4)
 
-    detekcijaBoja.detekcijaBojaMain(img)
-
-    videoSadrzaj=konture.mainContours(img = detekcijaBoja.detekcijaBojaMain(img))
-
-    trackiranje.obradaIspisaSlike(img, tracker)
+    trackiranje.obradaIspisaSlike(imgPapir, tracker)
     ispisFpsa(img, Pokreni = True)
     cv2.imshow("Tracking", img)
 
-    imgContours, conts = mjerenjeObjekta.getContoursMeasurements(img, minArea=50000, filter=4) #s ovim se treba poigrati npr maknit filter
+    imgContours, conts = mjerenjeObjekta.getContoursMeasurements(img, minArea=50000, filter=4)
     if len(conts) != 0: #prisjeti se cemu len sluzi
         biggest = conts[0][2]#ovo je za uzimanje papira to je oke
         # print(biggest)
@@ -87,13 +84,16 @@ while True:#glavni kod koji je za sad smece
                                                  minArea=2000, filter=4,
                                                  cThr=[50, 50], draw=False)
         if len(conts) != 0:#kad skuzi da je nesto na papiru napravi mjere
+            #cv2.imshow('A4', imgContours2)
+            imgContours2 = detekcijaBoja.detekcijaBojaMain(imgContours2)
+            videoSadrzaj = konture.mainContours(imgContours2)
+            imgContours2 = konture.mainContours(imgContours2)
             for obj in conts2:
                 privremenaFunkcija()
         cv2.imshow('A4', imgContours2)
+
 
     img = cv2.resize(img, (0, 0), None, 0.5, 0.5) #nezz tocno sto ovo radi
     cv2.imshow('Original', img)
     if cv2.waitKey(1) & 0xff == ord('q'):
        break
-
-
