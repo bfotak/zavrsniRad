@@ -1,6 +1,6 @@
 import cv2
 
-def drawBox(img,bbox): # nesto sam krivo podjelio reanaliziraj
+def drawBox(img,bbox):
     x, y, w, h = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
     cv2.rectangle(img, (x, y), ((x + w), (y + h)), (255, 0, 255), 3, 3 )
 
@@ -17,7 +17,7 @@ def ispisStatusa(img):
 
 def obradaIspisaSlike(img, tracker): #ovo nisam uspio bolje zapakirat might not be needed
 
-    success, bbox = tracker.update(img) #tu je jedan bbox
+    success, bbox = tracker.update(img)
     if success:
         #trackiranje.drawBox(img, bbox) #leti van koristi se samo za debugiranje
         isipisStanja(img, stanje="Tracking")
@@ -26,7 +26,7 @@ def obradaIspisaSlike(img, tracker): #ovo nisam uspio bolje zapakirat might not 
 
     ispisStatusa(img)
 
-def ispisFpsa(img, Pokreni, fps): #ispis fpsa u cosku malo over kill //BITNO! prosljedit iz maina fpse i ovo maknit van u neki utils
+def ispisFpsa(img, Pokreni, fps):
     if Pokreni:
 
         if fps > 60:

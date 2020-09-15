@@ -4,11 +4,9 @@ import numpy as np
 def empty(a):
     pass
 
-#cijeli file ostaje as is //trebat ce dodat RGB slider
-
 def slideriBoje():
     cv2.namedWindow("HSV")
-    cv2.resizeWindow("HSV", 640, 240)#potencijalno problematicno
+    cv2.resizeWindow("HSV", 640, 240)
     cv2.createTrackbar("HUE Min", "HSV", 0, 179, empty)
     cv2.createTrackbar("HUE Max", "HSV", 179, 179, empty)
     cv2.createTrackbar("SAT Min", "HSV", 0, 255, empty)

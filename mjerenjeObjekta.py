@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def reorder(myPoints):  # kljucno za mjerenje
+def reorder(myPoints):
     # print(myPoints.shape)
     myPointsNew = np.zeros_like(myPoints)
     myPoints = myPoints.reshape((4, 2))
@@ -15,7 +15,7 @@ def reorder(myPoints):  # kljucno za mjerenje
     return myPointsNew
 
 
-def warpImg(img, points, h, w):  # prvipodstep
+def warpImg(img, points, h, w):
     # print(points)
     pad = 20
     points = reorder(points)
@@ -27,7 +27,7 @@ def warpImg(img, points, h, w):  # prvipodstep
     return imgWarp
 
 
-def findDis(pts1, pts2):  # izracun
+def findDis(pts1, pts2):
     return ((pts2[0] - pts1[0]) ** 2 + (pts2[1] - pts1[1]) ** 2) ** 0.5
 
 def površina(numberOfPixels):
